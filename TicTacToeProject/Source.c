@@ -52,17 +52,46 @@ int check_win(char player) {
         return 1;
     }
 
-
-
-
+    
+}
 int main() {
+    int player = 1;
+    int row, col;
+  
 
 
+    for (int turn = 1; turn <= BOARD_SIZE * BOARD_SIZE; turn++) {
+        displayTicTacToe();
+        printf("please enter a location for the player 1 (0,0 / 2,1)");
+        printf("Player %d's turn (enter row and column): ", player);
+        scanf_s("%d %d", &row, &col);
 
+        if (row < 0 || row >= BOARD_SIZE || col < 0 || col >= BOARD_SIZE) {
+            printf("Wrong move, try again.\n");
+            turn--;
+            continue;
+        }
+        if (tictactoe[row][col] != ' ') {
+            printf("That space is taken.\n");
+            turn--;
+            continue;
+        }
+        // Set the current player's x or o
+        if (player == 1) {
+            tictactoe[row][col] = 'X';
+        }
+        else {
+            tictactoe[row][col] = 'O';
+        }
 
-
-	displayTicTacToe();
-
-
-
+        if (check_win(tictactoe[row][col])) {
+            displayTicTacToe();
+            printf("Player %d wins!\n", player);
+            return 0;
+        }
+        player = (player % 2) + 1;
+    }
+    displayTicTacToe();
+    printf("its tie");
+    return 0;
 }
